@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Open Heavens Devotional</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f7f9f7;
+      color: #111;
+      padding: 20px;
+      line-height: 1.7;
+    }
+
+    header {
+      background: #004080;
+      color: #fff;
+      padding: 15px;
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      color: #004080;
+      margin-bottom: 10px;
+    }
+
+    .scripture {
+      font-style: italic;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .content p {
+      margin-bottom: 15px;
+    }
+
+    a {
+      color: #004080;
+      text-decoration: none;
+    }
+  </style>
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <header>Open Heavens Devotional</header>
+
+  <div class="container">
+    <h1 id="dev-title">Loading...</h1>
+    <div class="scripture">
+      <a id="dev-scripture" href="#" target="_blank"></a>
+    </div>
+    <div class="content" id="dev-content"></div>
+  </div>
+
+  <script>
+    // Supabase setup
+    const SUPABASE_URL = "https://vtpsruejncfykiazrfsx.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0cHNydWVqbmNmeWtpYXpyZnN4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY3NDA5NzQsImV4cCI6MjA3MjMxNjk3NH0.UV55gbsSAgnyolxJhIYTaJUpvoJFsJn0_-LMNwhwAK0";
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // Get devotional ID from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get("id");
+
+    async function loadDevotional() {
+      if (!id) {
+        document.getElementById("dev-title").innerText = "No devotional selected.";
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from("devotionals")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+      if (error || !data) {
+        document.getElementById("dev-title").innerText = "Devotional not found.";
+        return;
+      }
+
+      // Fill page
+      document.getElementById("dev-title").innerText = data.title;
+
+      const scriptureLink = `https://www.biblegateway.com/passage/?search=${encodeURIComponent(data.scripture)}&version=KJV`;
+      const scriptureEl = document.getElementById("dev-scripture");
+      scriptureEl.innerText = data.scripture;
+      scriptureEl.href = scriptureLink;
+
+      // Format content with paragraph breaks
+      document.getElementById("dev-content").innerHTML = data.content.replace(/\n/g, "<br><br>");
+    }
+
+    loadDevotional();
+  </script>
+</body>
+</html>
