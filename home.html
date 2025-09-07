@@ -137,35 +137,7 @@ footer .links li { display: inline-block; margin-right: 15px; }
   <h2>Welcome to RCCG HIGHLY FAVOURED ASSEMBLY</h2>
   <p>We are a family of believers committed to spreading the gospel of Christ, worshipping together, and transforming lives through the power of the Holy Spirit.</p>
 
-  <div class="post">
-    <img src="https://vtpsruejncfykiazrfsx.supabase.co/storage/v1/object/public/PRODUCTS/Thanks%20giving.jpeg" alt="Thanksgiving Service">
-    <h3>📢 Announcement</h3>
-    <p>
-      Join Us This Sunday!<br>
-      You’re warmly invited to worship with us this Sunday! Come and experience uplifting praise, powerful teaching, and a refreshing time in God’s presence.<br>
-
-      📍Venue: 8, Olusoji Soyinka Street, First Gate, Ikorodu.<br>
-      🕘 Time: 8am
-      <span class="more-text" style="display:none;">
-        <br><br>
-        The service will feature powerful worship, testimonies, and thanksgiving prayers. Invite your family and friends!
-      </span>
-    </p>
-    <button class="read-more-btn" onclick="toggleReadMore(this)">Read More</button>
-  </div>
-
-  <div class="post">
-    <h3>🕊️ Word for the Week</h3>
-    <p>
-      "The Lord will fight for you, and you shall hold your peace." – Exodus 14:14
-      <span class="more-text" style="display:none;">
-        <br><br>
-        This week, hold on to faith and let God handle your battles. Stay prayerful and joyful in His presence.
-      </span>
-    </p>
-    <button class="read-more-btn" onclick="toggleReadMore(this)">Read More</button>
-  </div>
-
+  <div id="homePosts">Loading announcements...</div>
 </div>
 
 <!-- MINISTRIES -->
@@ -177,28 +149,7 @@ footer .links li { display: inline-block; margin-right: 15px; }
 <!-- SERVICES -->
 <div class="page-section" id="services">
   <h2>Services</h2>
-  <div class="timetable">
-    <div class="service-item">
-      <div class="service-day">Sunday</div>
-      <div class="service-name">✝️ Sunday Service</div>
-      <div class="service-time">9:00 AM</div>
-    </div>
-    <div class="service-item">
-      <div class="service-day">Tuesday</div>
-      <div class="service-name">📖 Digging Deep</div>
-      <div class="service-time">6:00 PM</div>
-    </div>
-    <div class="service-item">
-      <div class="service-day">Thursday</div>
-      <div class="service-name">Faith Clinic</div>
-      <div class="service-time">6:00 PM</div>
-    </div>
-    <div class="service-item">
-      <div class="service-day">Friday</div>
-      <div class="service-name">Night Vigil</div>
-      <div class="service-time">10:00 PM (Last Friday)</div>
-    </div>
-  </div>
+  <div class="timetable" id="servicesList">Loading services...</div>
 </div>
 
 <!-- OPEN HEAVEN ADULT -->
@@ -270,9 +221,9 @@ function toggleReadMore(button) {
   }
 }
 
-// SUPABASE CONFIG
+// ---------------- SUPABASE ----------------
 const SUPABASE_URL = "https://vtpsruejncfykiazrfsx.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0cHNydWVqbmNmeWtpYXpyZnN4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY3NDA5NzQsImV4cCI6MjA3MjMxNjk3NH0.UV55gbsSAgnyolxJhIYTaJUpvoJFsJn0_-LMNwhwAK0";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0cHNydWVqbmNmeWtpYXpyZnN4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY3NDA5NzQsImV4cCI6MjA3MjMxNjk3NH0.UV55gbsSAgnyolxJhIYTaJUpvoJFsJn0_-LMNwhwAK0"; // Use anon key for read-only
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 function formatDate(dateStr) {
@@ -281,13 +232,47 @@ function formatDate(dateStr) {
   return { day: d.getDate().toString().padStart(2,"0"), month: months[d.getMonth()] };
 }
 
+// Load Home posts dynamically
+async function loadHome() {
+  const { data, error } = await supabase.from("home_content").select("*").order("date",{ascending:false});
+  const container = document.getElementById("homePosts");
+  container.innerHTML = "";
+  if(error){ container.innerHTML = "<p style='color:red;'>Error loading posts</p>"; return; }
+  data.forEach(post=>{
+    const div = document.createElement("div");
+    div.className="post";
+    div.innerHTML = `
+      ${post.image_url ? `<img src="${post.image_url}" alt="Post Image">` : ''}
+      <h3>${post.title}</h3>
+      <p>${post.content}</p>
+    `;
+    container.appendChild(div);
+  });
+}
+
+// Load Services dynamically
+async function loadServices() {
+  const { data, error } = await supabase.from("services").select("*").order("id",{ascending:true});
+  const container = document.getElementById("servicesList");
+  container.innerHTML = "";
+  if(error){ container.innerHTML = "<p style='color:red;'>Error loading services</p>"; return; }
+  data.forEach(s=>{
+    const div = document.createElement("div");
+    div.className="service-item";
+    div.innerHTML = `<div class="service-day">${s.day}</div>
+                     <div class="service-name">${s.name}</div>
+                     <div class="service-time">${s.time}</div>`;
+    container.appendChild(div);
+  });
+}
+
+// Load devotionals
 async function loadDevotionals(type, containerId) {
   const { data, error } = await supabase.from("devotionals").select("*").eq("type", type).order("date", { ascending:false });
   const container = document.getElementById(containerId);
   container.innerHTML = "";
   if(error){ container.innerHTML = `<p style="color:red;">Error loading data</p>`; return; }
   if(!data || data.length === 0){ container.innerHTML = `<p>No devotionals available</p>`; return; }
-
   data.forEach(dev => {
     const { day, month } = formatDate(dev.date);
     const item = document.createElement("div");
@@ -308,11 +293,13 @@ async function loadDevotionals(type, containerId) {
   });
 }
 
-// Load both Adult & Teen
+// Initial load
+loadHome();
+loadServices();
 loadDevotionals("adult","adultList");
 loadDevotionals("teen","teenList");
 
-// BIBLE SECTION
+// ---------------- BIBLE SECTION ----------------
 const books = [
   "Genesis","Exodus","Leviticus","Numbers","Deuteronomy","Joshua","Judges","Ruth","1 Samuel","2 Samuel",
   "1 Kings","2 Kings","1 Chronicles","2 Chronicles","Ezra","Nehemiah","Esther","Job","Psalms","Proverbs",
@@ -322,7 +309,6 @@ const books = [
   "1 Thessalonians","2 Thessalonians","1 Timothy","2 Timothy","Titus","Philemon","Hebrews","James","1 Peter",
   "2 Peter","1 John","2 John","3 John","Jude","Revelation"
 ];
-
 const bookSelect = document.getElementById("bookSelect");
 const chapterSelect = document.getElementById("chapterSelect");
 const verseSelect = document.getElementById("verseSelect");
@@ -335,7 +321,6 @@ books.forEach(book => {
   opt.textContent = book;
   bookSelect.appendChild(opt);
 });
-
 bookSelect.addEventListener("change", updateChapters);
 chapterSelect.addEventListener("change", updateVerses);
 verseSelect.addEventListener("change", loadBibleText);
@@ -351,7 +336,6 @@ function updateChapters() {
   }
   updateVerses();
 }
-
 function updateVerses() {
   verseSelect.innerHTML = "";
   const allOpt = document.createElement("option");
@@ -366,7 +350,6 @@ function updateVerses() {
   }
   loadBibleText();
 }
-
 async function loadBibleText() {
   const book = bookSelect.value;
   const chapter = chapterSelect.value;
@@ -389,9 +372,7 @@ async function loadBibleText() {
     bibleText.innerHTML = "<p>Error loading Bible text.</p>";
   }
 }
-
 updateChapters();
-
 </script>
 </body>
 </html>
