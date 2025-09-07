@@ -246,21 +246,28 @@ function toggleMenu() {
   document.getElementById("overlay").classList.toggle("active");
 }
 
-function showSection(id) {
-  document.querySelectorAll(".page-section").forEach(sec => sec.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-  closeMenu();
-}
-
 function closeMenu() {
   document.getElementById("sideMenu").classList.remove("active");
   document.getElementById("overlay").classList.remove("active");
 }
 
-function formatDate(dateStr) {
-  const months = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
-  const d = new Date(dateStr + "T00:00:00");
-  return { day: d.getDate().toString().padStart(2,"0"), month: months[d.getMonth()] };
+function showSection(id) {
+  document.querySelectorAll(".page-section").forEach(sec => sec.classList.remove("active"));
+  const section = document.getElementById(id);
+  if(section) section.classList.add("active");
+  closeMenu();
+}
+
+function toggleReadMore(button) {
+  const moreText = button.previousElementSibling.querySelector(".more-text");
+  if(!moreText) return;
+  if(moreText.style.display === "none" || moreText.style.display === "") { 
+    moreText.style.display = "inline"; 
+    button.textContent = "Close"; 
+  } else { 
+    moreText.style.display = "none"; 
+    button.textContent = "Read More"; 
+  }
 }
 
 // SUPABASE CONFIG
@@ -268,30 +275,24 @@ const SUPABASE_URL = "https://vtpsruejncfykiazrfsx.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0cHNydWVqbmNmeWtpYXpyZnN4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY3NDA5NzQsImV4cCI6MjA3MjMxNjk3NH0.UV55gbsSAgnyolxJhIYTaJUpvoJFsJn0_-LMNwhwAK0";
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+function formatDate(dateStr) {
+  const months = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+  const d = new Date(dateStr + "T00:00:00");
+  return { day: d.getDate().toString().padStart(2,"0"), month: months[d.getMonth()] };
+}
+
 async function loadDevotionals(type, containerId) {
-  const { data, error } = await supabase
-    .from("devotionals")
-    .select("*")
-    .eq("type", type)
-    .order("date",{ ascending:false });
-
+  const { data, error } = await supabase.from("devotionals").select("*").eq("type", type).order("date", { ascending:false });
   const container = document.getElementById(containerId);
-  container.innerHTML="";
+  container.innerHTML = "";
+  if(error){ container.innerHTML = `<p style="color:red;">Error loading data</p>`; return; }
+  if(!data || data.length === 0){ container.innerHTML = `<p>No devotionals available</p>`; return; }
 
-  if(error){ 
-    container.innerHTML=`<p style="color:red;">Error loading data</p>`; 
-    return; 
-  }
-  if(!data || data.length===0){ 
-    container.innerHTML=`<p>No devotionals available</p>`; 
-    return; 
-  }
-
-  data.forEach(dev=>{
+  data.forEach(dev => {
     const { day, month } = formatDate(dev.date);
     const item = document.createElement("div");
-    item.className="dev-item";
-    item.innerHTML=`
+    item.className = "dev-item";
+    item.innerHTML = `
       <div class="dev-header">
         <div class="dev-date">${month}<br>${day}</div>
         <div class="dev-details">
@@ -299,7 +300,6 @@ async function loadDevotionals(type, containerId) {
           <small>${dev.scripture}</small>
         </div>
       </div>
-      ${dev.image_url ? `<img src="${dev.image_url}" alt="${dev.title} image" style="width:100%; border-radius:6px; margin:10px 0;">` : ''}
       <div class="dev-footer">
         <a href="devotional.html?id=${dev.id}" target="_blank">Read Full →</a>
       </div>
@@ -308,22 +308,11 @@ async function loadDevotionals(type, containerId) {
   });
 }
 
-// Load both Adult & Teen from Supabase
+// Load both Adult & Teen
 loadDevotionals("adult","adultList");
 loadDevotionals("teen","teenList");
 
-function toggleReadMore(button) {
-  const moreText = button.previousElementSibling.querySelector(".more-text");
-  if(moreText.style.display==="none"||moreText.style.display===""){ 
-    moreText.style.display="inline"; 
-    button.textContent="Close"; 
-  } else { 
-    moreText.style.display="none"; 
-    button.textContent="Read More"; 
-  }
-}
-
-// BIBLE API
+// BIBLE SECTION
 const books = [
   "Genesis","Exodus","Leviticus","Numbers","Deuteronomy","Joshua","Judges","Ruth","1 Samuel","2 Samuel",
   "1 Kings","2 Kings","1 Chronicles","2 Chronicles","Ezra","Nehemiah","Esther","Job","Psalms","Proverbs",
@@ -334,75 +323,73 @@ const books = [
   "2 Peter","1 John","2 John","3 John","Jude","Revelation"
 ];
 
-const bookSelect=document.getElementById("bookSelect");
-const chapterSelect=document.getElementById("chapterSelect");
-const verseSelect=document.getElementById("verseSelect");
-const bibleText=document.getElementById("bibleText");
+const bookSelect = document.getElementById("bookSelect");
+const chapterSelect = document.getElementById("chapterSelect");
+const verseSelect = document.getElementById("verseSelect");
+const bibleText = document.getElementById("bibleText");
 
 // Populate books
-books.forEach(book=>{ 
-  const opt=document.createElement("option"); 
-  opt.value=book; 
-  opt.textContent=book; 
-  bookSelect.appendChild(opt); 
+books.forEach(book => {
+  const opt = document.createElement("option");
+  opt.value = book;
+  opt.textContent = book;
+  bookSelect.appendChild(opt);
 });
 
-bookSelect.addEventListener("change",updateChapters);
-chapterSelect.addEventListener("change",updateVerses);
-verseSelect.addEventListener("change",loadBibleText);
+bookSelect.addEventListener("change", updateChapters);
+chapterSelect.addEventListener("change", updateVerses);
+verseSelect.addEventListener("change", loadBibleText);
 
-function updateChapters(){
-  const book=bookSelect.value;
-  chapterSelect.innerHTML="";
-  for(let i=1;i<=150;i++){ 
-    const opt=document.createElement("option"); 
-    opt.value=i; 
-    opt.textContent="Chapter "+i; 
+function updateChapters() {
+  const book = bookSelect.value;
+  chapterSelect.innerHTML = "";
+  for(let i=1; i<=150; i++){
+    const opt = document.createElement("option");
+    opt.value = i;
+    opt.textContent = "Chapter " + i;
     chapterSelect.appendChild(opt);
   }
   updateVerses();
 }
 
-function updateVerses(){
-  verseSelect.innerHTML="";
-  const allOpt=document.createElement("option"); 
-  allOpt.value="all"; 
-  allOpt.textContent="All"; 
+function updateVerses() {
+  verseSelect.innerHTML = "";
+  const allOpt = document.createElement("option");
+  allOpt.value = "all";
+  allOpt.textContent = "All";
   verseSelect.appendChild(allOpt);
-  for(let i=1;i<=50;i++){ 
-    const opt=document.createElement("option"); 
-    opt.value=i; 
-    opt.textContent=i; 
+  for(let i=1; i<=50; i++){
+    const opt = document.createElement("option");
+    opt.value = i;
+    opt.textContent = i;
     verseSelect.appendChild(opt);
   }
   loadBibleText();
 }
 
-async function loadBibleText(){
-  const book=bookSelect.value;
-  const chapter=chapterSelect.value;
-  const verse=verseSelect.value;
-
-  try{
-    bibleText.innerHTML="<p>Loading...</p>";
-    const res=await fetch(`https://bible-api.com/${book} ${chapter}`);
-    const data=await res.json();
+async function loadBibleText() {
+  const book = bookSelect.value;
+  const chapter = chapterSelect.value;
+  const verse = verseSelect.value;
+  try {
+    bibleText.innerHTML = "<p>Loading...</p>";
+    const res = await fetch(`https://bible-api.com/${book} ${chapter}`);
+    const data = await res.json();
     if(data && data.verses){
-      bibleText.innerHTML="";
-      data.verses.forEach(v=>{
-        if(verse==="all"||v.verse==verse){
-          bibleText.innerHTML+=`<p class="bible-verse" id="verse-${v.verse}"><strong>${v.verse}:</strong> ${v.text}</p>`;
+      bibleText.innerHTML = "";
+      data.verses.forEach(v => {
+        if(verse === "all" || v.verse == verse){
+          bibleText.innerHTML += `<p class="bible-verse" id="verse-${v.verse}"><strong>${v.verse}:</strong> ${v.text}</p>`;
         }
       });
     } else {
-      bibleText.innerHTML="<p>Unable to fetch Bible text.</p>";
+      bibleText.innerHTML = "<p>Unable to fetch Bible text.</p>";
     }
-  } catch(err){ 
-    bibleText.innerHTML="<p>Error loading Bible text.</p>"; 
+  } catch(err){
+    bibleText.innerHTML = "<p>Error loading Bible text.</p>";
   }
 }
 
-// Initialize Bible
 updateChapters();
 
 </script>
