@@ -51,6 +51,28 @@
       color: #004080;
       text-decoration: none;
     }
+
+    #backButton {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #004080;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    #backButton:hover {
+      background: #002950;
+    }
+
+    img.dev-image {
+      width: 100%;
+      border-radius: 6px;
+      margin: 20px 0;
+    }
   </style>
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 </head>
@@ -63,6 +85,7 @@
       <a id="dev-scripture" href="#" target="_blank"></a>
     </div>
     <div class="content" id="dev-content"></div>
+    <button id="backButton">← Back to Home</button>
   </div>
 
   <script>
@@ -70,6 +93,11 @@
     const SUPABASE_URL = "https://vtpsruejncfykiazrfsx.supabase.co";
     const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0cHNydWVqbmNmeWtpYXpyZnN4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY3NDA5NzQsImV4cCI6MjA3MjMxNjk3NH0.UV55gbsSAgnyolxJhIYTaJUpvoJFsJn0_-LMNwhwAK0";
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // Back button
+    document.getElementById("backButton").addEventListener("click", () => {
+      window.location.href = "index.html"; // Replace with your home page filename
+    });
 
     // Get devotional ID from URL
     const urlParams = new URLSearchParams(window.location.search);
@@ -100,8 +128,25 @@
       scriptureEl.innerText = data.scripture;
       scriptureEl.href = scriptureLink;
 
-      // Format content with paragraph breaks
-      document.getElementById("dev-content").innerHTML = data.content.replace(/\n/g, "<br><br>");
+      // If image exists, display it
+      const contentEl = document.getElementById("dev-content");
+      contentEl.innerHTML = "";
+
+      if (data.image_url) {
+        const img = document.createElement("img");
+        img.src = data.image_url;
+        img.alt = data.title + " image";
+        img.className = "dev-image";
+        contentEl.appendChild(img);
+      }
+
+      // Add devotional content
+      const paragraphs = data.content.split("\n").filter(p => p.trim() !== "");
+      paragraphs.forEach(p => {
+        const paraEl = document.createElement("p");
+        paraEl.innerHTML = p;
+        contentEl.appendChild(paraEl);
+      });
     }
 
     loadDevotional();
