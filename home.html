@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RCCG HIGHLY FAVOURED ASSEMBLY</title>
   <style>
-
-
     :root {
       --church-blue: #004080;
       --church-blue-2: #0059b3;
@@ -135,6 +133,64 @@
       margin: 0 auto 20px;
       line-height: 1.6;
     }
+
+    /* POSTS */
+    .post {
+      background: #fff;
+      border-radius: 6px;
+      padding: 16px;
+      margin: 20px auto;
+      max-width: 700px;
+      text-align: left;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .post img {
+      width: 100%;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+
+    .read-more-btn {
+      background: var(--church-blue);
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      margin-top: 6px;
+    }
+
+    .read-more-btn:hover {
+      background: var(--church-blue-2);
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--church-blue);
+      color: #fff;
+      padding: 20px 16px;
+      margin-top: 40px;
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: #ffdd00;
+      text-decoration: none;
+    }
+
+    footer .links {
+      list-style: none;
+      padding: 0;
+      margin: 10px 0;
+      line-height: 1.8;
+    }
+
+    footer .links li {
+      display: inline-block;
+      margin-right: 15px;
+    }
   </style>
 </head>
 <body>
@@ -142,7 +198,7 @@
   <header>
     <div class="logo-container">
       <img src="https://vtpsruejncfykiazrfsx.supabase.co/storage/v1/object/public/PRODUCTS/Rccg.png" alt="RCCG Logo" class="logo">
-      <h1>RCCG HIGHLY FAVOURED ASSMEBLY</h1>
+      <h1>RCCG HIGHLY FAVOURED ASSEMBLY</h1>
     </div>
     <button class="hamburger" onclick="toggleMenu()">☰</button>
   </header>
@@ -151,24 +207,65 @@
   <div class="side-menu" id="sideMenu">
     <span class="close-btn" onclick="toggleMenu()">✖</span>
     <a href="#" onclick="showSection('home')">Home</a>
-    <a href="#" onclick="showSection('about')">About Us</a>
     <a href="#" onclick="showSection('ministries')">Ministries</a>
     <a href="#" onclick="showSection('services')">Services</a>
-    <a href="#" onclick="showSection('contact')">Contact</a>
   </div>
 
   <!-- OVERLAY -->
   <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
   <!-- SECTIONS -->
+  <!-- HOME SECTION -->
   <div class="page-section active" id="home">
     <h2>Welcome to RCCG HIGHLY FAVOURED ASSEMBLY</h2>
     <p>We are a family of believers committed to spreading the gospel of Christ, worshipping together, and transforming lives through the power of the Holy Spirit.</p>
-  </div>
 
-  <div class="page-section" id="about">
-    <h2>About Us</h2>
-    <p>The Redeemed Christian Church of God (RCCG) is a global church founded in 1952. Our parish is a vibrant part of this great family, dedicated to prayer, evangelism, and community impact.</p>
+    <!-- Example Posts -->
+    <div class="post">
+      <img src="https://vtpsruejncfykiazrfsx.supabase.co/storage/v1/object/public/PRODUCTS/Thanks%20giving.jpeg" alt="Thanksgiving Service">
+      <h3>📢 Announcement</h3>
+      <p>
+        *Join Us This Sunday!*
+
+You’re warmly invited to worship with us this Sunday!. Come and experience uplifting praise, powerful teaching, and a refreshing time in God’s presence.
+
+📍Venue: 8, Olusoji Soyinka Street, First Gate, Ikorodu.
+🕘 Time: 8am
+
+Don’t come alone—bring a friend and let’s grow together in Christ.
+
+We can’t wait to see you there! 🙌
+        <span class="more-text" style="display:none;">
+          <br><br>
+          The service will feature powerful worship, testimonies, and thanksgiving prayers. Invite your family and friends!
+        </span>
+      </p>
+      <button class="read-more-btn" onclick="toggleReadMore(this)">Read More</button>
+    </div>
+
+    <div class="post">
+      <h3>🕊️ Word for the Week</h3>
+      <p>
+        "The Lord will fight for you, and you shall hold your peace." – Exodus 14:14
+        <span class="more-text" style="display:none;">
+          <br><br>
+          This week, hold on to faith and let God handle your battles. Stay prayerful and joyful in His presence.
+        </span>
+      </p>
+      <button class="read-more-btn" onclick="toggleReadMore(this)">Read More</button>
+    </div>
+
+    <div class="post">
+      <h3>🎶 Choir Special</h3>
+      <p>
+        Our Choir will be ministering in a powerful worship session this Wednesday. Don’t miss it!
+        <span class="more-text" style="display:none;">
+          <br><br>
+          Expect a night of deep worship and praise as the choir ushers us into God's presence. Come with a heart of worship.
+        </span>
+      </p>
+      <button class="read-more-btn" onclick="toggleReadMore(this)">Read More</button>
+    </div>
   </div>
 
   <div class="page-section" id="ministries">
@@ -180,19 +277,30 @@
     <h2>Services</h2>
     <p>
       ✝️ Sunday Service – 9:00 AM <br>
-      Midweek Bible Study – Wednesdays 6:00 PM <br>
-      Night Vigil – Last Friday of every month 10:00 PM
+      📖 Midweek Bible Study – Wednesdays 6:00 PM <br>
+      🌙 Night Vigil – Last Friday of every month 10:00 PM
     </p>
   </div>
 
-  <div class="page-section" id="contact">
-    <h2>Contact Us</h2>
-    <p>
-      Address: RCCG Parish, Osogbo, Osun State <br>
-      📞Phone: +234 806 123 4567 <br>
-      Email: info@rccgparish.org
-    </p>
-  </div>
+  <!-- FOOTER (fixed for all pages but styled small) -->
+  <footer>
+    <div style="max-width:1000px; margin:0 auto; text-align:center;">
+      <h3 style="margin:0;">Quick Links</h3>
+      <ul class="links">
+        <li><a href="#" onclick="showSection('home')">Home</a></li>
+        <li><a href="#" onclick="showSection('ministries')">Ministries</a></li>
+        <li><a href="#" onclick="showSection('services')">Services</a></li>
+      </ul>
+
+      <h3 style="margin:10px 0 0;">About Us</h3>
+      <p style="margin:5px 0; line-height:1.6;">
+        The Redeemed Christian Church of God (RCCG) Highly Favoured Assembly is a family of believers passionate about worship, evangelism, and community impact.
+      </p>
+
+      <p style="margin:5px 0;">📍 Osogbo, Osun State | 📞 +234 806 123 4567 | ✉ info@rccgparish.org</p>
+      <p style="margin:5px 0;">&copy; 2025 RCCG Highly Favoured Assembly | All rights reserved</p>
+    </div>
+  </footer>
 
   <script>
     function toggleMenu() {
@@ -210,6 +318,17 @@
     function closeMenu() {
       document.getElementById("sideMenu").classList.remove("active");
       document.getElementById("overlay").classList.remove("active");
+    }
+
+    function toggleReadMore(btn) {
+      const moreText = btn.parentElement.querySelector(".more-text");
+      if (moreText.style.display === "none" || moreText.style.display === "") {
+        moreText.style.display = "inline";
+        btn.textContent = "Close";
+      } else {
+        moreText.style.display = "none";
+        btn.textContent = "Read More";
+      }
     }
   </script>
 </body>
