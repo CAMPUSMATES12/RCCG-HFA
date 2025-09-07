@@ -1,411 +1,554 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>RCCG HIGHLY FAVOURED ASSEMBLY</title>
-  <style>
-    :root {
-      --church-blue: #004080;
-      --church-blue-2: #0059b3;
-      --text: #111;
-      --light-bg: #f7f9f7;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>RCCG HIGHLY FAVOURED ASSEMBLY</title>
+<style>
+:root {
+  --church-blue: #004080;
+  --church-blue-2: #0059b3;
+  --text: #111;
+  --light-bg: #f7f9f7;
+}
 
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: var(--light-bg);
-      color: var(--text);
-    }
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--light-bg);
+  color: var(--text);
+}
 
-    /* HEADER */
-    header {
-      background: var(--church-blue);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 20px;
-    }
+/* HEADER */
+header {
+  background: var(--church-blue);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+}
 
-    header .logo-container {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+header .logo-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-    header img.logo {
-      height: 40px;
-      border-radius: 50%;
-    }
+header img.logo {
+  height: 40px;
+  border-radius: 50%;
+}
 
-    header h1 {
-      margin: 0;
-      font-size: 1.2rem;
-    }
+header h1 {
+  margin: 0;
+  font-size: 1.2rem;
+}
 
-    /* HAMBURGER */
-    .hamburger {
-      font-size: 1.8rem;
-      cursor: pointer;
-      border: none;
-      background: none;
-      color: #fff;
-    }
+/* HAMBURGER */
+.hamburger {
+  font-size: 1.8rem;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: #fff;
+}
 
-    /* SIDE MENU */
-    .side-menu {
-      position: fixed;
-      top: 0;
-      left: -260px;
-      width: 250px;
-      height: 100%;
-      background: #fff;
-      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-      transition: left 0.3s ease;
-      z-index: 1000;
-      padding-top: 60px;
-    }
+/* SIDE MENU */
+.side-menu {
+  position: fixed;
+  top: 0;
+  left: -260px;
+  width: 250px;
+  height: 100%;
+  background: #fff;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+  transition: left 0.3s ease;
+  z-index: 1000;
+  padding-top: 60px;
+}
 
-    .side-menu.active {
-      left: 0;
-    }
+.side-menu.active {
+  left: 0;
+}
 
-    .side-menu a {
-      display: block;
-      padding: 15px 20px;
-      color: var(--text);
-      text-decoration: none;
-      border-bottom: 1px solid #ddd;
-      font-weight: 600;
-    }
+.side-menu a {
+  display: block;
+  padding: 15px 20px;
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid #ddd;
+  font-weight: 600;
+}
 
-    .side-menu a:hover {
-      background: var(--light-bg);
-      color: var(--church-blue);
-    }
+.side-menu a:hover {
+  background: var(--light-bg);
+  color: var(--church-blue);
+}
 
-    /* CLOSE BUTTON */
-    .close-btn {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: var(--church-blue);
-    }
+/* CLOSE BUTTON */
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--church-blue);
+}
 
-    /* OVERLAY */
-    .overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.5);
-      z-index: 999;
-    }
+/* OVERLAY */
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 999;
+}
 
-    .overlay.active {
-      display: block;
-    }
+.overlay.active {
+  display: block;
+}
 
-    /* PAGE SECTIONS */
-    .page-section {
-      display: none;
-      padding: 40px 20px;
-      text-align: center;
-    }
+/* PAGE SECTIONS */
+.page-section {
+  display: none;
+  padding: 40px 20px;
+  text-align: center;
+}
 
-    .page-section.active {
-      display: block;
-    }
+.page-section.active {
+  display: block;
+}
 
-    .page-section h2 {
-      color: var(--church-blue);
-      margin-bottom: 10px;
-    }
+.page-section h2 {
+  color: var(--church-blue);
+  margin-bottom: 10px;
+}
 
-    .page-section p {
-      max-width: 800px;
-      margin: 0 auto 20px;
-      line-height: 1.6;
-    }
+.page-section p {
+  max-width: 800px;
+  margin: 0 auto 20px;
+  line-height: 1.6;
+}
 
-    /* POSTS */
-    .post {
-      background: #fff;
-      border-radius: 6px;
-      padding: 16px;
-      margin: 20px auto;
-      max-width: 700px;
-      text-align: left;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
+/* POSTS */
+.post {
+  background: #fff;
+  border-radius: 6px;
+  padding: 16px;
+  margin: 20px auto;
+  max-width: 700px;
+  text-align: left;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
 
-    .post img {
-      width: 100%;
-      border-radius: 6px;
-      margin-bottom: 10px;
-    }
+.post img {
+  width: 100%;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
 
-    .read-more-btn {
-      background: var(--church-blue);
-      color: #fff;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      margin-top: 6px;
-    }
+.read-more-btn {
+  background: var(--church-blue);
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  margin-top: 6px;
+}
 
-    .read-more-btn:hover {
-      background: var(--church-blue-2);
-    }
+.read-more-btn:hover {
+  background: var(--church-blue-2);
+}
 
-    /* Devotional list */
-    .dev-item { background:#fff; border:1px solid #eee; margin-bottom:12px; border-radius:6px; overflow:hidden; max-width:700px; margin-left:auto; margin-right:auto; }
-    .dev-header { display:flex; align-items:center; padding:12px; }
-    .dev-date { background:#eaf4ff; color:#004080; font-weight:bold; padding:10px; border-radius:6px; min-width:60px; text-align:center; margin-right:12px; }
-    .dev-details h3 { margin:0; font-size:1rem; color:#004080; }
-    .dev-details small { color:#666; }
-    .dev-footer { padding:12px; border-top:1px solid #eee; background:#fafafa; text-align:right; }
-    .dev-footer a { text-decoration:none; background:#004080; color:#fff; padding:6px 12px; border-radius:4px; font-size:0.85rem; }
-    .dev-footer a:hover { background:#0059b3; }
+/* Devotional list */
+.dev-item { background:#fff; border:1px solid #eee; margin-bottom:12px; border-radius:6px; overflow:hidden; max-width:700px; margin-left:auto; margin-right:auto; }
+.dev-header { display:flex; align-items:center; padding:12px; }
+.dev-date { background:#eaf4ff; color:#004080; font-weight:bold; padding:10px; border-radius:6px; min-width:60px; text-align:center; margin-right:12px; }
+.dev-details h3 { margin:0; font-size:1rem; color:#004080; }
+.dev-details small { color:#666; }
+.dev-footer { padding:12px; border-top:1px solid #eee; background:#fafafa; text-align:right; }
+.dev-footer a { text-decoration:none; background:#004080; color:#fff; padding:6px 12px; border-radius:4px; font-size:0.85rem; }
+.dev-footer a:hover { background:#0059b3; }
 
-    /* FOOTER */
-    footer {
-      background: var(--church-blue);
-      color: #fff;
-      padding: 20px 16px;
-      margin-top: 40px;
-      font-size: 0.9rem;
-    }
+/* BIBLE SECTION */
+#bibleSelects { display:flex; gap:10px; justify-content:center; margin-bottom:20px; flex-wrap:wrap; }
+#bibleSelects select { padding:8px; border-radius:4px; border:1px solid #ccc; font-size:1rem; }
+#bibleText { background:#fff; border-radius:6px; padding:20px; max-width:700px; margin:0 auto; text-align:left; box-shadow:0 2px 6px rgba(0,0,0,0.1); line-height:1.6; }
 
-    footer a {
-      color: #ffdd00;
-      text-decoration: none;
-    }
+/* SERVICES TIMETABLE */
+.timetable {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 700px;
+  margin: 0 auto;
+}
 
-    footer .links {
-      list-style: none;
-      padding: 0;
-      margin: 10px 0;
-      line-height: 1.8;
-    }
+.service-item {
+  display: flex;
+  justify-content: space-between;
+  background: #eaf4ff;
+  border-left: 5px solid #004080;
+  padding: 12px 20px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
 
-    footer .links li {
-      display: inline-block;
-      margin-right: 15px;
-    }
-  </style>
-  <!-- Supabase -->
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+.service-item:hover {
+  transform: translateY(-2px);
+}
+
+.service-day {
+  font-weight: bold;
+  color: #004080;
+  flex-basis: 25%;
+}
+
+.service-name {
+  flex-basis: 50%;
+  color: #0059b3;
+  font-weight: 600;
+}
+
+.service-time {
+  flex-basis: 25%;
+  text-align: right;
+  color: #004080;
+  font-weight: bold;
+}
+
+/* FOOTER */
+footer {
+  background: var(--church-blue);
+  color: #fff;
+  padding: 20px 16px;
+  margin-top: 40px;
+  font-size: 0.9rem;
+}
+
+footer a {
+  color: #ffdd00;
+  text-decoration: none;
+}
+
+footer .links {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+  line-height: 1.8;
+}
+
+footer .links li {
+  display: inline-block;
+  margin-right: 15px;
+}
+</style>
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 </head>
 <body>
-  <!-- HEADER -->
-  <header>
-    <div class="logo-container">
-      <img src="https://vtpsruejncfykiazrfsx.supabase.co/storage/v1/object/public/PRODUCTS/Rccg.png" alt="RCCG Logo" class="logo">
-      <h1>RCCG HIGHLY FAVOURED ASSEMBLY</h1>
-    </div>
-    <button class="hamburger" onclick="toggleMenu()">☰</button>
-  </header>
-
-  <!-- SIDE MENU -->
-  <div class="side-menu" id="sideMenu">
-    <span class="close-btn" onclick="toggleMenu()">✖</span>
-    <a href="#" onclick="showSection('home')">Home</a>
-    <a href="#" onclick="showSection('ministries')">Ministries</a>
-    <a href="#" onclick="showSection('services')">Services</a>
-    <a href="#" onclick="showSection('adult')">Open Heaven Adult</a>
-    <a href="#" onclick="showSection('teen')">Open Heaven Teen</a>
+<!-- HEADER -->
+<header>
+  <div class="logo-container">
+    <img src="https://vtpsruejncfykiazrfsx.supabase.co/storage/v1/object/public/PRODUCTS/Rccg.png" alt="RCCG Logo" class="logo">
+    <h1>RCCG HIGHLY FAVOURED ASSEMBLY</h1>
   </div>
+  <button class="hamburger" onclick="toggleMenu()">☰</button>
+</header>
 
-  <!-- OVERLAY -->
-  <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+<!-- SIDE MENU -->
+<div class="side-menu" id="sideMenu">
+  <span class="close-btn" onclick="toggleMenu()">✖</span>
+  <a href="#" onclick="showSection('home')">Home</a>
+  <a href="#" onclick="showSection('ministries')">Ministries</a>
+  <a href="#" onclick="showSection('services')">Services</a>
+  <a href="#" onclick="showSection('adult')">Open Heaven Adult</a>
+  <a href="#" onclick="showSection('teen')">Open Heaven Teen</a>
+  <a href="#" onclick="showSection('bible')">Bible</a>
+</div>
 
-  <!-- SECTIONS -->
-  <!-- HOME SECTION -->
-  <div class="page-section active" id="home">
-    <h2>Welcome to RCCG HIGHLY FAVOURED ASSEMBLY</h2>
-    <p>We are a family of believers committed to spreading the gospel of Christ, worshipping together, and transforming lives through the power of the Holy Spirit.</p>
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
-    <!-- Example Posts -->
-    <div class="post">
-      <img src="https://vtpsruejncfykiazrfsx.supabase.co/storage/v1/object/public/PRODUCTS/Thanks%20giving.jpeg" alt="Thanksgiving Service">
-      <h3>📢 Announcement</h3>
-      <p>
-        Join Us This Sunday!
+<!-- HOME SECTION -->
+<div class="page-section active" id="home">
+  <h2>Welcome to RCCG HIGHLY FAVOURED ASSEMBLY</h2>
+  <p>We are a family of believers committed to spreading the gospel of Christ, worshipping together, and transforming lives through the power of the Holy Spirit.</p>
 
-        You’re warmly invited to worship with us this Sunday!. Come and experience uplifting praise, powerful teaching, and a refreshing time in God’s presence.
-
-        📍Venue: 8, Olusoji Soyinka Street, First Gate, Ikorodu.
-        🕘 Time: 8am
-
-        Don’t come alone—bring a friend and let’s grow together in Christ.
-
-        We can’t wait to see you there! 🙌
-        <span class="more-text" style="display:none;">
-          <br><br>
-          The service will feature powerful worship, testimonies, and thanksgiving prayers. Invite your family and friends!
-        </span>
-      </p>
-      <button class="read-more-btn" onclick="toggleReadMore(this)">Read More</button>
-    </div>
-
-    <div class="post">
-      <h3>🕊️ Word for the Week</h3>
-      <p>
-        "The Lord will fight for you, and you shall hold your peace." – Exodus 14:14
-        <span class="more-text" style="display:none;">
-          <br><br>
-          This week, hold on to faith and let God handle your battles. Stay prayerful and joyful in His presence.
-        </span>
-      </p>
-      <button class="read-more-btn" onclick="toggleReadMore(this)">Read More</button>
-    </div>
-
-    <div class="post">
-      <h3>🎶 Choir Special</h3>
-      <p>
-        Our Choir will be ministering in a powerful worship session this Wednesday. Don’t miss it!
-        <span class="more-text" style="display:none;">
-          <br><br>
-          Expect a night of deep worship and praise as the choir ushers us into God's presence. Come with a heart of worship.
-        </span>
-      </p>
-      <button class="read-more-btn" onclick="toggleReadMore(this)">Read More</button>
-    </div>
-  </div>
-
-  <div class="page-section" id="ministries">
-    <h2>Our Ministries</h2>
-    <p>We have ministries for men, women, youth, children, and outreach. Each ministry is designed to help you grow spiritually and serve God’s kingdom effectively.</p>
-  </div>
-
-  <div class="page-section" id="services">
-    <h2>Services</h2>
+  <div class="post">
+    <img src="https://vtpsruejncfykiazrfsx.supabase.co/storage/v1/object/public/PRODUCTS/Thanks%20giving.jpeg" alt="Thanksgiving Service">
+    <h3>📢 Announcement</h3>
     <p>
-      ✝️ Sunday Service – 9:00 AM <br>
-      📖 Midweek Bible Study – Wednesdays 6:00 PM <br>
-      🌙 Night Vigil – Last Friday of every month 10:00 PM
+      *Join Us This Sunday!*<br>
+      You’re warmly invited to worship with us this Sunday! Come and experience uplifting praise, powerful teaching, and a refreshing time in God’s presence.<br>
+      📍Venue: 8, Olusoji Soyinka Street, First Gate, Ikorodu.<br>
+      🕘 Time: 8am
+      <span class="more-text" style="display:none;">
+        <br><br>
+        The service will feature powerful worship, testimonies, and thanksgiving prayers. Invite your family and friends!
+      </span>
     </p>
+    <button class="read-more-btn" onclick="toggleReadMore(this)">Read More</button>
   </div>
 
-  <!-- Open Heaven Adult -->
-  <div class="page-section" id="adult">
-    <h2>Open Heavens (Adult)</h2>
-    <div id="adultList">Loading...</div>
+  <div class="post">
+    <h3>🕊️ Word for the Week</h3>
+    <p>
+      "The Lord will fight for you, and you shall hold your peace." – Exodus 14:14
+      <span class="more-text" style="display:none;">
+        <br><br>
+        This week, hold on to faith and let God handle your battles. Stay prayerful and joyful in His presence.
+      </span>
+    </p>
+    <button class="read-more-btn" onclick="toggleReadMore(this)">Read More</button>
   </div>
 
-  <!-- Open Heaven Teen -->
-  <div class="page-section" id="teen">
-    <h2>Open Heavens (Teen)</h2>
-    <div id="teenList">Loading...</div>
+  <div class="post">
+    <h3>🎶 Choir Special</h3>
+    <p>
+      Our Choir will be ministering in a powerful worship session this Wednesday. Don’t miss it!
+      <span class="more-text" style="display:none;">
+        <br><br>
+        Expect a night of deep worship and praise as the choir ushers us into God's presence. Come with a heart of worship.
+      </span>
+    </p>
+    <button class="read-more-btn" onclick="toggleReadMore(this)">Read More</button>
   </div>
+</div>
 
-  <!-- FOOTER -->
-  <footer>
-    <div style="max-width:1000px; margin:0 auto; text-align:center;">
-      <h3 style="margin:0;">Quick Links</h3>
-      <ul class="links">
-        <li><a href="#" onclick="showSection('home')">Home</a></li>
-        <li><a href="#" onclick="showSection('ministries')">Ministries</a></li>
-        <li><a href="#" onclick="showSection('services')">Services</a></li>
-        <li><a href="#" onclick="showSection('adult')">Open Heaven Adult</a></li>
-        <li><a href="#" onclick="showSection('teen')">Open Heaven Teen</a></li>
-      </ul>
-      <p style="margin:5px 0;">&copy; 2025 RCCG Highly Favoured Assembly | All rights reserved</p>
+<!-- MINISTRIES -->
+<div class="page-section" id="ministries">
+  <h2>Our Ministries</h2>
+  <p>We have ministries for men, women, youth, children, and outreach. Each ministry is designed to help you grow spiritually and serve God’s kingdom effectively.</p>
+</div>
+
+<!-- SERVICES -->
+<div class="page-section" id="services">
+  <h2>Services</h2>
+  <div class="timetable">
+    <div class="service-item">
+      <div class="service-day">Sunday</div>
+      <div class="service-name">✝️ Sunday Service</div>
+      <div class="service-time">9:00 AM</div>
     </div>
-  </footer>
+    <div class="service-item">
+      <div class="service-day">Tuesday</div>
+      <div class="service-name">📖 Digging Deep</div>
+      <div class="service-time">6:00 PM</div>
+    </div>
+    <div class="service-item">
+      <div class="service-day">Wednesday</div>
+      <div class="service-name">📖 Midweek Bible Study</div>
+      <div class="service-time">6:00 PM</div>
+    </div>
+    <div class="service-item">
+      <div class="service-day">Thursday</div>
+      <div class="service-name">Faith Clinic</div>
+      <div class="service-time">6:00 PM</div>
+    </div>
+    <div class="service-item">
+      <div class="service-day">Friday</div>
+      <div class="service-name">Night Vigil</div>
+      <div class="service-time">10:00 PM (Last Friday)</div>
+    </div>
+  </div>
+</div>
+
+<!-- OPEN HEAVEN ADULT -->
+<div class="page-section" id="adult">
+  <h2>Open Heavens (Adult)</h2>
+  <div id="adultList">Loading...</div>
+</div>
+
+<!-- OPEN HEAVEN TEEN -->
+<div class="page-section" id="teen">
+  <h2>Open Heavens (Teen)</h2>
+  <div id="teenList">Loading...</div>
+</div>
+
+<!-- BIBLE SECTION -->
+<div class="page-section" id="bible">
+  <h2>Holy Bible</h2>
+  <p>Select a book and chapter to read:</p>
+  <div id="bibleSelects">
+    <select id="bookSelect"></select>
+    <select id="chapterSelect"></select>
+  </div>
+  <div id="bibleText">
+    <p>Select a book and chapter to display Bible text.</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div style="max-width:1000px; margin:0 auto; text-align:center;">
+    <h3 style="margin:0;">Quick Links</h3>
+    <ul class="links">
+      <li><a href="#" onclick="showSection('home')">Home</a></li>
+      <li><a href="#" onclick="showSection('ministries')">Ministries</a></li>
+      <li><a href="#" onclick="showSection('services')">Services</a></li>
+      <li><a href="#" onclick="showSection('adult')">Open Heaven Adult</a></li>
+      <li><a href="#" onclick="showSection('teen')">Open Heaven Teen</a></li>
+      <li><a href="#" onclick="showSection('bible')">Bible</a></li>
+    </ul>
+    <p style="margin:5px 0;">&copy; 2025 RCCG Highly Favoured Assembly | All rights reserved</p>
+  </div>
+</footer>
 
 <script>
-  function toggleMenu() {
-    document.getElementById("sideMenu").classList.toggle("active");
-    document.getElementById("overlay").classList.toggle("active");
+function toggleMenu() {
+  document.getElementById("sideMenu").classList.toggle("active");
+  document.getElementById("overlay").classList.toggle("active");
+}
+
+function showSection(id) {
+  document.querySelectorAll(".page-section").forEach(sec => sec.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  closeMenu();
+}
+
+function closeMenu() {
+  document.getElementById("sideMenu").classList.remove("active");
+  document.getElementById("overlay").classList.remove("active");
+}
+
+function formatDate(dateStr) {
+  const months = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+  const d = new Date(dateStr + "T00:00:00");
+  return { day: d.getDate().toString().padStart(2,"0"), month: months[d.getMonth()] };
+}
+
+// SUPABASE CONFIG
+const SUPABASE_URL = "https://vtpsruejncfykiazrfsx.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0cHNydWVqbmNmeWtpYXpyZnN4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY3NDA5NzQsImV4cCI6MjA3MjMxNjk3NH0.UV55gbsSAgnyolxJhIYTaJUpvoJFsJn0_-LMNwhwAK0";
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+async function loadDevotionals(type, containerId) {
+  const { data, error } = await supabase
+    .from("devotionals")
+    .select("*")
+    .eq("type", type)
+    .order("date", { ascending: false });
+
+  const container = document.getElementById(containerId);
+  container.innerHTML = "";
+
+  if (error) {
+    container.innerHTML = `<p style="color:red;">Error loading data</p>`;
+    return;
   }
 
-  function showSection(id) {
-    document.querySelectorAll(".page-section").forEach(sec => sec.classList.remove("active"));
-    document.getElementById(id).classList.add("active");
-    closeMenu();
+  if (!data || data.length === 0) {
+    container.innerHTML = `<p>No devotionals available</p>`;
+    return;
   }
 
-  function closeMenu() {
-    document.getElementById("sideMenu").classList.remove("active");
-    document.getElementById("overlay").classList.remove("active");
-  }
-
-  function formatDate(dateStr) {
-    const months = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
-    const d = new Date(dateStr + "T00:00:00"); // safer for Supabase date
-    return { day: d.getDate().toString().padStart(2,"0"), month: months[d.getMonth()] };
-  }
-
-  // SUPABASE CONFIG
-  const SUPABASE_URL = "https://vtpsruejncfykiazrfsx.supabase.co";
-  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0cHNydWVqbmNmeWtpYXpyZnN4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY3NDA5NzQsImV4cCI6MjA3MjMxNjk3NH0.UV55gbsSAgnyolxJhIYTaJUpvoJFsJn0_-LMNwhwAK0";
-  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-  async function loadDevotionals(type, containerId) {
-    const { data, error } = await supabase
-      .from("devotionals")
-      .select("*")
-      .eq("type", type)
-      .order("date", { ascending: false });
-
-    const container = document.getElementById(containerId);
-    container.innerHTML = "";
-
-    if (error) {
-      container.innerHTML = `<p style="color:red;">Error loading data</p>`;
-      return;
-    }
-
-    if (!data || data.length === 0) {
-      container.innerHTML = `<p>No devotionals available</p>`;
-      return;
-    }
-
-    data.forEach(dev => {
-      const { day, month } = formatDate(dev.date);
-      const item = document.createElement("div");
-      item.className = "dev-item";
-      item.innerHTML = `
-        <div class="dev-header">
-          <div class="dev-date">${month}<br>${day}</div>
-          <div class="dev-details">
-            <h3>${dev.title}</h3>
-            <small>${dev.scripture}</small>
-          </div>
+  data.forEach(dev => {
+    const { day, month } = formatDate(dev.date);
+    const item = document.createElement("div");
+    item.className = "dev-item";
+    item.innerHTML = `
+      <div class="dev-header">
+        <div class="dev-date">${month}<br>${day}</div>
+        <div class="dev-details">
+          <h3>${dev.title}</h3>
+          <small>${dev.scripture}</small>
         </div>
-        <div class="dev-footer">
-          <a href="devotional.html?id=${dev.id}" target="_blank">Read Full →</a>
-        </div>
-      `;
-      container.appendChild(item);
-    });
+      </div>
+      <div class="dev-footer">
+        <a href="devotional.html?id=${dev.id}" target="_blank">Read Full →</a>
+      </div>
+    `;
+    container.appendChild(item);
+  });
+}
+
+loadDevotionals("adult", "adultList");
+loadDevotionals("teen", "teenList");
+
+function toggleReadMore(button) {
+  const moreText = button.previousElementSibling.querySelector(".more-text");
+  if (moreText.style.display === "none" || moreText.style.display === "") {
+    moreText.style.display = "inline";
+    button.textContent = "Close";
+  } else {
+    moreText.style.display = "none";
+    button.textContent = "Read More";
   }
+}
 
-  // Load both Adult & Teen from Supabase
-  loadDevotionals("adult", "adultList");
-  loadDevotionals("teen", "teenList");
+// Bible API Integration (using bibles.org or similar free API)
+const books = [
+  "Genesis","Exodus","Leviticus","Numbers","Deuteronomy","Joshua","Judges",
+  "Ruth","1 Samuel","2 Samuel","1 Kings","2 Kings","1 Chronicles","2 Chronicles",
+  "Ezra","Nehemiah","Esther","Job","Psalms","Proverbs","Ecclesiastes","Song of Solomon",
+  "Isaiah","Jeremiah","Lamentations","Ezekiel","Daniel","Hosea","Joel","Amos","Obadiah",
+  "Jonah","Micah","Nahum","Habakkuk","Zephaniah","Haggai","Zechariah","Malachi",
+  "Matthew","Mark","Luke","John","Acts","Romans","1 Corinthians","2 Corinthians",
+  "Galatians","Ephesians","Philippians","Colossians","1 Thessalonians","2 Thessalonians",
+  "1 Timothy","2 Timothy","Titus","Philemon","Hebrews","James","1 Peter","2 Peter",
+  "1 John","2 John","3 John","Jude","Revelation"
+];
 
-  // ✅ Fix for Read More / Close in home posts
-  function toggleReadMore(button) {
-    const moreText = button.previousElementSibling.querySelector(".more-text");
-    if (moreText.style.display === "none" || moreText.style.display === "") {
-      moreText.style.display = "inline";
-      button.textContent = "Close";
+const bookSelect = document.getElementById("bookSelect");
+const chapterSelect = document.getElementById("chapterSelect");
+const bibleText = document.getElementById("bibleText");
+
+// Populate book select
+books.forEach(book => {
+  const opt = document.createElement("option");
+  opt.value = book;
+  opt.textContent = book;
+  bookSelect.appendChild(opt);
+});
+
+bookSelect.addEventListener("change", updateChapters);
+
+function updateChapters() {
+  const book = bookSelect.value;
+  chapterSelect.innerHTML = "";
+  // Assuming max 150 chapters (psalms) for simplicity
+  for (let i = 1; i <= 150; i++) {
+    const opt = document.createElement("option");
+    opt.value = i;
+    opt.textContent = "Chapter " + i;
+    chapterSelect.appendChild(opt);
+  }
+  loadBibleText(); // Load first chapter
+}
+
+chapterSelect.addEventListener("change", loadBibleText);
+
+async function loadBibleText() {
+  const book = bookSelect.value;
+  const chapter = chapterSelect.value || 1;
+
+  // Example: Using bible-api.com for free JSON API
+  try {
+    bibleText.innerHTML = "<p>Loading...</p>";
+    const res = await fetch(`https://bible-api.com/${book} ${chapter}`);
+    const data = await res.json();
+    if (data && data.verses) {
+      bibleText.innerHTML = "";
+      data.verses.forEach(v => {
+        bibleText.innerHTML += `<p><strong>${v.verse}:</strong> ${v.text}</p>`;
+      });
     } else {
-      moreText.style.display = "none";
-      button.textContent = "Read More";
+      bibleText.innerHTML = "<p>Unable to fetch Bible text.</p>";
     }
+  } catch(err) {
+    bibleText.innerHTML = "<p>Error loading Bible text.</p>";
   }
+}
+
+// Initialize Bible selects
+updateChapters();
 </script>
 </body>
 </html>
