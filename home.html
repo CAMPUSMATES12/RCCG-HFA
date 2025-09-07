@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>RCCG HIGHLY FAVOURED ASSEMBLY</title>
   <style>
     :root {
@@ -166,6 +166,16 @@
       background: var(--church-blue-2);
     }
 
+    /* Devotional list */
+    .dev-item { background:#fff; border:1px solid #eee; margin-bottom:12px; border-radius:6px; overflow:hidden; max-width:700px; margin-left:auto; margin-right:auto; }
+    .dev-header { display:flex; align-items:center; padding:12px; }
+    .dev-date { background:#eaf4ff; color:#004080; font-weight:bold; padding:10px; border-radius:6px; min-width:60px; text-align:center; margin-right:12px; }
+    .dev-details h3 { margin:0; font-size:1rem; color:#004080; }
+    .dev-details small { color:#666; }
+    .dev-footer { padding:12px; border-top:1px solid #eee; background:#fafafa; text-align:right; }
+    .dev-footer a { text-decoration:none; background:#004080; color:#fff; padding:6px 12px; border-radius:4px; font-size:0.85rem; }
+    .dev-footer a:hover { background:#0059b3; }
+
     /* FOOTER */
     footer {
       background: var(--church-blue);
@@ -192,6 +202,8 @@
       margin-right: 15px;
     }
   </style>
+  <!-- Supabase -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <!-- HEADER -->
@@ -209,6 +221,8 @@
     <a href="#" onclick="showSection('home')">Home</a>
     <a href="#" onclick="showSection('ministries')">Ministries</a>
     <a href="#" onclick="showSection('services')">Services</a>
+    <a href="#" onclick="showSection('adult')">Open Heaven Adult</a>
+    <a href="#" onclick="showSection('teen')">Open Heaven Teen</a>
   </div>
 
   <!-- OVERLAY -->
@@ -227,14 +241,14 @@
       <p>
         *Join Us This Sunday!*
 
-You’re warmly invited to worship with us this Sunday!. Come and experience uplifting praise, powerful teaching, and a refreshing time in God’s presence.
+        You’re warmly invited to worship with us this Sunday!. Come and experience uplifting praise, powerful teaching, and a refreshing time in God’s presence.
 
-📍Venue: 8, Olusoji Soyinka Street, First Gate, Ikorodu.
-🕘 Time: 8am
+        📍Venue: 8, Olusoji Soyinka Street, First Gate, Ikorodu.
+        🕘 Time: 8am
 
-Don’t come alone—bring a friend and let’s grow together in Christ.
+        Don’t come alone—bring a friend and let’s grow together in Christ.
 
-We can’t wait to see you there! 🙌
+        We can’t wait to see you there! 🙌
         <span class="more-text" style="display:none;">
           <br><br>
           The service will feature powerful worship, testimonies, and thanksgiving prayers. Invite your family and friends!
@@ -282,7 +296,19 @@ We can’t wait to see you there! 🙌
     </p>
   </div>
 
-  <!-- FOOTER (fixed for all pages but styled small) -->
+  <!-- Open Heaven Adult -->
+  <div class="page-section" id="adult">
+    <h2>Open Heavens (Adult)</h2>
+    <div id="adultList">Loading...</div>
+  </div>
+
+  <!-- Open Heaven Teen -->
+  <div class="page-section" id="teen">
+    <h2>Open Heavens (Teen)</h2>
+    <div id="teenList">Loading...</div>
+  </div>
+
+  <!-- FOOTER -->
   <footer>
     <div style="max-width:1000px; margin:0 auto; text-align:center;">
       <h3 style="margin:0;">Quick Links</h3>
@@ -290,46 +316,96 @@ We can’t wait to see you there! 🙌
         <li><a href="#" onclick="showSection('home')">Home</a></li>
         <li><a href="#" onclick="showSection('ministries')">Ministries</a></li>
         <li><a href="#" onclick="showSection('services')">Services</a></li>
+        <li><a href="#" onclick="showSection('adult')">Open Heaven Adult</a></li>
+        <li><a href="#" onclick="showSection('teen')">Open Heaven Teen</a></li>
       </ul>
-
-      <h3 style="margin:10px 0 0;">About Us</h3>
-      <p style="margin:5px 0; line-height:1.6;">
-        The Redeemed Christian Church of God (RCCG) Highly Favoured Assembly is a family of believers passionate about worship, evangelism, and community impact.
-      </p>
-
-      <p style="margin:5px 0;">📍 Osogbo, Osun State | 📞 +234 806 123 4567 | ✉ info@rccgparish.org</p>
       <p style="margin:5px 0;">&copy; 2025 RCCG Highly Favoured Assembly | All rights reserved</p>
     </div>
   </footer>
 
-  <script>
-    function toggleMenu() {
-      document.getElementById("sideMenu").classList.toggle("active");
-      document.getElementById("overlay").classList.toggle("active");
+<script>
+  function toggleMenu() {
+    document.getElementById("sideMenu").classList.toggle("active");
+    document.getElementById("overlay").classList.toggle("active");
+  }
+
+  function showSection(id) {
+    document.querySelectorAll(".page-section").forEach(sec => sec.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+    closeMenu();
+  }
+
+  function closeMenu() {
+    document.getElementById("sideMenu").classList.remove("active");
+    document.getElementById("overlay").classList.remove("active");
+  }
+
+  function formatDate(dateStr) {
+    const months = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+    const d = new Date(dateStr + "T00:00:00"); // safer for Supabase date
+    return { day: d.getDate().toString().padStart(2,"0"), month: months[d.getMonth()] };
+  }
+
+  // SUPABASE CONFIG
+  const SUPABASE_URL = "https://vtpsruejncfykiazrfsx.supabase.co";
+  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0cHNydWVqbmNmeWtpYXpyZnN4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY3NDA5NzQsImV4cCI6MjA3MjMxNjk3NH0.UV55gbsSAgnyolxJhIYTaJUpvoJFsJn0_-LMNwhwAK0";
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  async function loadDevotionals(type, containerId) {
+    const { data, error } = await supabase
+      .from("devotionals")
+      .select("*")
+      .eq("type", type)
+      .order("date", { ascending: false });
+
+    const container = document.getElementById(containerId);
+    container.innerHTML = "";
+
+    if (error) {
+      container.innerHTML = `<p style="color:red;">Error loading data</p>`;
+      return;
     }
 
-    function showSection(id) {
-      const sections = document.querySelectorAll(".page-section");
-      sections.forEach(sec => sec.classList.remove("active"));
-      document.getElementById(id).classList.add("active");
-      closeMenu();
+    if (!data || data.length === 0) {
+      container.innerHTML = `<p>No devotionals available</p>`;
+      return;
     }
 
-    function closeMenu() {
-      document.getElementById("sideMenu").classList.remove("active");
-      document.getElementById("overlay").classList.remove("active");
-    }
+    data.forEach(dev => {
+      const { day, month } = formatDate(dev.date);
+      const item = document.createElement("div");
+      item.className = "dev-item";
+      item.innerHTML = `
+        <div class="dev-header">
+          <div class="dev-date">${month}<br>${day}</div>
+          <div class="dev-details">
+            <h3>${dev.title}</h3>
+            <small>${dev.scripture}</small>
+          </div>
+        </div>
+        <div class="dev-footer">
+          <a href="devotional.html?id=${dev.id}" target="_blank">Read Full →</a>
+        </div>
+      `;
+      container.appendChild(item);
+    });
+  }
 
-    function toggleReadMore(btn) {
-      const moreText = btn.parentElement.querySelector(".more-text");
-      if (moreText.style.display === "none" || moreText.style.display === "") {
-        moreText.style.display = "inline";
-        btn.textContent = "Close";
-      } else {
-        moreText.style.display = "none";
-        btn.textContent = "Read More";
-      }
+  // Load both Adult & Teen from Supabase
+  loadDevotionals("adult", "adultList");
+  loadDevotionals("teen", "teenList");
+
+  // ✅ Fix for Read More / Close in home posts
+  function toggleReadMore(button) {
+    const moreText = button.previousElementSibling.querySelector(".more-text");
+    if (moreText.style.display === "none" || moreText.style.display === "") {
+      moreText.style.display = "inline";
+      button.textContent = "Close";
+    } else {
+      moreText.style.display = "none";
+      button.textContent = "Read More";
     }
-  </script>
+  }
+</script>
 </body>
 </html>
