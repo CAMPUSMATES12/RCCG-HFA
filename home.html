@@ -11,14 +11,12 @@
   --text: #111;
   --light-bg: #f7f9f7;
 }
-
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: var(--light-bg);
   color: var(--text);
 }
-
 /* HEADER */
 header {
   background: var(--church-blue);
@@ -28,23 +26,19 @@ header {
   justify-content: space-between;
   padding: 14px 20px;
 }
-
 header .logo-container {
   display: flex;
   align-items: center;
   gap: 10px;
 }
-
 header img.logo {
   height: 40px;
   border-radius: 50%;
 }
-
 header h1 {
   margin: 0;
   font-size: 1.2rem;
 }
-
 /* HAMBURGER */
 .hamburger {
   font-size: 1.8rem;
@@ -53,7 +47,6 @@ header h1 {
   background: none;
   color: #fff;
 }
-
 /* SIDE MENU */
 .side-menu {
   position: fixed;
@@ -67,105 +60,24 @@ header h1 {
   z-index: 1000;
   padding-top: 60px;
 }
-
-.side-menu.active {
-  left: 0;
-}
-
-.side-menu a {
-  display: block;
-  padding: 15px 20px;
-  color: var(--text);
-  text-decoration: none;
-  border-bottom: 1px solid #ddd;
-  font-weight: 600;
-}
-
-.side-menu a:hover {
-  background: var(--light-bg);
-  color: var(--church-blue);
-}
-
+.side-menu.active { left:0; }
+.side-menu a { display: block; padding: 15px 20px; color: var(--text); text-decoration: none; border-bottom: 1px solid #ddd; font-weight: 600; }
+.side-menu a:hover { background: var(--light-bg); color: var(--church-blue); }
 /* CLOSE BUTTON */
-.close-btn {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: var(--church-blue);
-}
-
+.close-btn { position: absolute; top: 15px; right: 15px; font-size: 1.5rem; cursor: pointer; color: var(--church-blue); }
 /* OVERLAY */
-.overlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-  z-index: 999;
-}
-
-.overlay.active {
-  display: block;
-}
-
+.overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; }
+.overlay.active { display: block; }
 /* PAGE SECTIONS */
-.page-section {
-  display: none;
-  padding: 40px 20px;
-  text-align: center;
-}
-
-.page-section.active {
-  display: block;
-}
-
-.page-section h2 {
-  color: var(--church-blue);
-  margin-bottom: 10px;
-}
-
-.page-section p {
-  max-width: 800px;
-  margin: 0 auto 20px;
-  line-height: 1.6;
-}
-
+.page-section { display: none; padding: 40px 20px; text-align: center; }
+.page-section.active { display: block; }
+.page-section h2 { color: var(--church-blue); margin-bottom: 10px; }
+.page-section p { max-width: 800px; margin: 0 auto 20px; line-height: 1.6; }
 /* POSTS */
-.post {
-  background: #fff;
-  border-radius: 6px;
-  padding: 16px;
-  margin: 20px auto;
-  max-width: 700px;
-  text-align: left;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-.post img {
-  width: 100%;
-  border-radius: 6px;
-  margin-bottom: 10px;
-}
-
-.read-more-btn {
-  background: var(--church-blue);
-  color: #fff;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.85rem;
-  margin-top: 6px;
-}
-
-.read-more-btn:hover {
-  background: var(--church-blue-2);
-}
-
+.post { background: #fff; border-radius: 6px; padding: 16px; margin: 20px auto; max-width: 700px; text-align: left; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+.post img { width: 100%; border-radius: 6px; margin-bottom: 10px; }
+.read-more-btn { background: var(--church-blue); color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; margin-top: 6px; }
+.read-more-btn:hover { background: var(--church-blue-2); }
 /* Devotional list */
 .dev-item { background:#fff; border:1px solid #eee; margin-bottom:12px; border-radius:6px; overflow:hidden; max-width:700px; margin-left:auto; margin-right:auto; }
 .dev-header { display:flex; align-items:center; padding:12px; }
@@ -175,80 +87,24 @@ header h1 {
 .dev-footer { padding:12px; border-top:1px solid #eee; background:#fafafa; text-align:right; }
 .dev-footer a { text-decoration:none; background:#004080; color:#fff; padding:6px 12px; border-radius:4px; font-size:0.85rem; }
 .dev-footer a:hover { background:#0059b3; }
-
 /* BIBLE SECTION */
 #bibleSelects { display:flex; gap:10px; justify-content:center; margin-bottom:20px; flex-wrap:wrap; }
 #bibleSelects select { padding:8px; border-radius:4px; border:1px solid #ccc; font-size:1rem; }
 #bibleText { background:#fff; border-radius:6px; padding:20px; max-width:700px; margin:0 auto; text-align:left; box-shadow:0 2px 6px rgba(0,0,0,0.1); line-height:1.6; }
-
 /* SERVICES TIMETABLE */
-.timetable {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  max-width: 700px;
-  margin: 0 auto;
-}
-
-.service-item {
-  display: flex;
-  justify-content: space-between;
-  background: #eaf4ff;
-  border-left: 5px solid #004080;
-  padding: 12px 20px;
-  border-radius: 6px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  transition: transform 0.2s;
-}
-
-.service-item:hover {
-  transform: translateY(-2px);
-}
-
-.service-day {
-  font-weight: bold;
-  color: #004080;
-  flex-basis: 25%;
-}
-
-.service-name {
-  flex-basis: 50%;
-  color: #0059b3;
-  font-weight: 600;
-}
-
-.service-time {
-  flex-basis: 25%;
-  text-align: right;
-  color: #004080;
-  font-weight: bold;
-}
-
+.timetable { display: flex; flex-direction: column; gap: 12px; max-width: 700px; margin: 0 auto; }
+.service-item { display: flex; justify-content: space-between; background: #eaf4ff; border-left: 5px solid #004080; padding: 12px 20px; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); transition: transform 0.2s; }
+.service-item:hover { transform: translateY(-2px); }
+.service-day { font-weight: bold; color: #004080; flex-basis: 25%; }
+.service-name { flex-basis: 50%; color: #0059b3; font-weight: 600; }
+.service-time { flex-basis: 25%; text-align: right; color: #004080; font-weight: bold; }
 /* FOOTER */
-footer {
-  background: var(--church-blue);
-  color: #fff;
-  padding: 20px 16px;
-  margin-top: 40px;
-  font-size: 0.9rem;
-}
-
-footer a {
-  color: #ffdd00;
-  text-decoration: none;
-}
-
-footer .links {
-  list-style: none;
-  padding: 0;
-  margin: 10px 0;
-  line-height: 1.8;
-}
-
-footer .links li {
-  display: inline-block;
-  margin-right: 15px;
-}
+footer { background: var(--church-blue); color: #fff; padding: 20px 16px; margin-top: 40px; font-size: 0.9rem; }
+footer a { color: #ffdd00; text-decoration: none; }
+footer .links { list-style: none; padding: 0; margin: 10px 0; line-height: 1.8; }
+footer .links li { display: inline-block; margin-right: 15px; }
+.bible-verse { cursor:pointer; padding:3px 0; }
+.bible-verse:hover { background:#eaf4ff; }
 </style>
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 </head>
@@ -285,8 +141,9 @@ footer .links li {
     <img src="https://vtpsruejncfykiazrfsx.supabase.co/storage/v1/object/public/PRODUCTS/Thanks%20giving.jpeg" alt="Thanksgiving Service">
     <h3>📢 Announcement</h3>
     <p>
-      *Join Us This Sunday!*<br>
+      Join Us This Sunday!<br>
       You’re warmly invited to worship with us this Sunday! Come and experience uplifting praise, powerful teaching, and a refreshing time in God’s presence.<br>
+
       📍Venue: 8, Olusoji Soyinka Street, First Gate, Ikorodu.<br>
       🕘 Time: 8am
       <span class="more-text" style="display:none;">
@@ -375,17 +232,15 @@ footer .links li {
 <!-- BIBLE SECTION -->
 <div class="page-section" id="bible">
   <h2>Holy Bible</h2>
-  <p>Select a book and chapter to read:</p>
+  <p>Select Book, Chapter, and Verse:</p>
   <div id="bibleSelects">
     <select id="bookSelect"></select>
     <select id="chapterSelect"></select>
+    <select id="verseSelect"></select>
   </div>
-  <div id="bibleText">
-    <p>Select a book and chapter to display Bible text.</p>
-  </div>
+  <div id="bibleText"><p>Select a book, chapter, and verse to display text.</p></div>
 </div>
 
-<!-- FOOTER -->
 <footer>
   <div style="max-width:1000px; margin:0 auto; text-align:center;">
     <h3 style="margin:0;">Quick Links</h3>
@@ -434,26 +289,25 @@ async function loadDevotionals(type, containerId) {
     .from("devotionals")
     .select("*")
     .eq("type", type)
-    .order("date", { ascending: false });
+    .order("date",{ ascending:false });
 
   const container = document.getElementById(containerId);
-  container.innerHTML = "";
+  container.innerHTML="";
 
-  if (error) {
-    container.innerHTML = `<p style="color:red;">Error loading data</p>`;
-    return;
+  if(error){ 
+    container.innerHTML=`<p style="color:red;">Error loading data</p>`; 
+    return; 
+  }
+  if(!data || data.length===0){ 
+    container.innerHTML=`<p>No devotionals available</p>`; 
+    return; 
   }
 
-  if (!data || data.length === 0) {
-    container.innerHTML = `<p>No devotionals available</p>`;
-    return;
-  }
-
-  data.forEach(dev => {
+  data.forEach(dev=>{
     const { day, month } = formatDate(dev.date);
     const item = document.createElement("div");
-    item.className = "dev-item";
-    item.innerHTML = `
+    item.className="dev-item";
+    item.innerHTML=`
       <div class="dev-header">
         <div class="dev-date">${month}<br>${day}</div>
         <div class="dev-details">
@@ -461,6 +315,7 @@ async function loadDevotionals(type, containerId) {
           <small>${dev.scripture}</small>
         </div>
       </div>
+      ${dev.image_url ? `<img src="${dev.image_url}" alt="${dev.title} image" style="width:100%; border-radius:6px; margin:10px 0;">` : ''}
       <div class="dev-footer">
         <a href="devotional.html?id=${dev.id}" target="_blank">Read Full →</a>
       </div>
@@ -469,86 +324,103 @@ async function loadDevotionals(type, containerId) {
   });
 }
 
-loadDevotionals("adult", "adultList");
-loadDevotionals("teen", "teenList");
+// Load both Adult & Teen from Supabase
+loadDevotionals("adult","adultList");
+loadDevotionals("teen","teenList");
 
 function toggleReadMore(button) {
   const moreText = button.previousElementSibling.querySelector(".more-text");
-  if (moreText.style.display === "none" || moreText.style.display === "") {
-    moreText.style.display = "inline";
-    button.textContent = "Close";
-  } else {
-    moreText.style.display = "none";
-    button.textContent = "Read More";
+  if(moreText.style.display==="none"||moreText.style.display===""){ 
+    moreText.style.display="inline"; 
+    button.textContent="Close"; 
+  } else { 
+    moreText.style.display="none"; 
+    button.textContent="Read More"; 
   }
 }
 
-// Bible API Integration (using bibles.org or similar free API)
+// BIBLE API
 const books = [
-  "Genesis","Exodus","Leviticus","Numbers","Deuteronomy","Joshua","Judges",
-  "Ruth","1 Samuel","2 Samuel","1 Kings","2 Kings","1 Chronicles","2 Chronicles",
-  "Ezra","Nehemiah","Esther","Job","Psalms","Proverbs","Ecclesiastes","Song of Solomon",
-  "Isaiah","Jeremiah","Lamentations","Ezekiel","Daniel","Hosea","Joel","Amos","Obadiah",
-  "Jonah","Micah","Nahum","Habakkuk","Zephaniah","Haggai","Zechariah","Malachi",
-  "Matthew","Mark","Luke","John","Acts","Romans","1 Corinthians","2 Corinthians",
-  "Galatians","Ephesians","Philippians","Colossians","1 Thessalonians","2 Thessalonians",
-  "1 Timothy","2 Timothy","Titus","Philemon","Hebrews","James","1 Peter","2 Peter",
-  "1 John","2 John","3 John","Jude","Revelation"
+  "Genesis","Exodus","Leviticus","Numbers","Deuteronomy","Joshua","Judges","Ruth","1 Samuel","2 Samuel",
+  "1 Kings","2 Kings","1 Chronicles","2 Chronicles","Ezra","Nehemiah","Esther","Job","Psalms","Proverbs",
+  "Ecclesiastes","Song of Solomon","Isaiah","Jeremiah","Lamentations","Ezekiel","Daniel","Hosea","Joel","Amos",
+  "Obadiah","Jonah","Micah","Nahum","Habakkuk","Zephaniah","Haggai","Zechariah","Malachi","Matthew","Mark",
+  "Luke","John","Acts","Romans","1 Corinthians","2 Corinthians","Galatians","Ephesians","Philippians","Colossians",
+  "1 Thessalonians","2 Thessalonians","1 Timothy","2 Timothy","Titus","Philemon","Hebrews","James","1 Peter",
+  "2 Peter","1 John","2 John","3 John","Jude","Revelation"
 ];
 
-const bookSelect = document.getElementById("bookSelect");
-const chapterSelect = document.getElementById("chapterSelect");
-const bibleText = document.getElementById("bibleText");
+const bookSelect=document.getElementById("bookSelect");
+const chapterSelect=document.getElementById("chapterSelect");
+const verseSelect=document.getElementById("verseSelect");
+const bibleText=document.getElementById("bibleText");
 
-// Populate book select
-books.forEach(book => {
-  const opt = document.createElement("option");
-  opt.value = book;
-  opt.textContent = book;
-  bookSelect.appendChild(opt);
+// Populate books
+books.forEach(book=>{ 
+  const opt=document.createElement("option"); 
+  opt.value=book; 
+  opt.textContent=book; 
+  bookSelect.appendChild(opt); 
 });
 
-bookSelect.addEventListener("change", updateChapters);
+bookSelect.addEventListener("change",updateChapters);
+chapterSelect.addEventListener("change",updateVerses);
+verseSelect.addEventListener("change",loadBibleText);
 
-function updateChapters() {
-  const book = bookSelect.value;
-  chapterSelect.innerHTML = "";
-  // Assuming max 150 chapters (psalms) for simplicity
-  for (let i = 1; i <= 150; i++) {
-    const opt = document.createElement("option");
-    opt.value = i;
-    opt.textContent = "Chapter " + i;
+function updateChapters(){
+  const book=bookSelect.value;
+  chapterSelect.innerHTML="";
+  for(let i=1;i<=150;i++){ 
+    const opt=document.createElement("option"); 
+    opt.value=i; 
+    opt.textContent="Chapter "+i; 
     chapterSelect.appendChild(opt);
   }
-  loadBibleText(); // Load first chapter
+  updateVerses();
 }
 
-chapterSelect.addEventListener("change", loadBibleText);
+function updateVerses(){
+  verseSelect.innerHTML="";
+  const allOpt=document.createElement("option"); 
+  allOpt.value="all"; 
+  allOpt.textContent="All"; 
+  verseSelect.appendChild(allOpt);
+  for(let i=1;i<=50;i++){ 
+    const opt=document.createElement("option"); 
+    opt.value=i; 
+    opt.textContent=i; 
+    verseSelect.appendChild(opt);
+  }
+  loadBibleText();
+}
 
-async function loadBibleText() {
-  const book = bookSelect.value;
-  const chapter = chapterSelect.value || 1;
+async function loadBibleText(){
+  const book=bookSelect.value;
+  const chapter=chapterSelect.value;
+  const verse=verseSelect.value;
 
-  // Example: Using bible-api.com for free JSON API
-  try {
-    bibleText.innerHTML = "<p>Loading...</p>";
-    const res = await fetch(`https://bible-api.com/${book} ${chapter}`);
-    const data = await res.json();
-    if (data && data.verses) {
-      bibleText.innerHTML = "";
-      data.verses.forEach(v => {
-        bibleText.innerHTML += `<p><strong>${v.verse}:</strong> ${v.text}</p>`;
+  try{
+    bibleText.innerHTML="<p>Loading...</p>";
+    const res=await fetch(`https://bible-api.com/${book} ${chapter}`);
+    const data=await res.json();
+    if(data && data.verses){
+      bibleText.innerHTML="";
+      data.verses.forEach(v=>{
+        if(verse==="all"||v.verse==verse){
+          bibleText.innerHTML+=`<p class="bible-verse" id="verse-${v.verse}"><strong>${v.verse}:</strong> ${v.text}</p>`;
+        }
       });
     } else {
-      bibleText.innerHTML = "<p>Unable to fetch Bible text.</p>";
+      bibleText.innerHTML="<p>Unable to fetch Bible text.</p>";
     }
-  } catch(err) {
-    bibleText.innerHTML = "<p>Error loading Bible text.</p>";
+  } catch(err){ 
+    bibleText.innerHTML="<p>Error loading Bible text.</p>"; 
   }
 }
 
-// Initialize Bible selects
+// Initialize Bible
 updateChapters();
+
 </script>
 </body>
 </html>
