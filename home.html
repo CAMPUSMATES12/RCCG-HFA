@@ -132,6 +132,78 @@ footer .links li { display: inline-block; margin-right: 15px; }
  <a href="#" onclick="showSection('hymns')">Hymn</a>
 </div>
 
+<!-- POPUP MODAL -->
+<div id="sitePopup" class="popup">
+  <div class="popup-content">
+    <span class="close-btn" onclick="closePopup()">&times;</span>
+
+    <!-- RCCG Logo -->
+    <img src="https://vtpsruejncfykiazrfsx.supabase.co/storage/v1/object/public/PRODUCTS/Rccg.png" alt="RCCG Logo" class="popup-logo">
+
+    <h2>WELCOME TO RCCG HFA – YOUR SPIRITUAL HOME</h2>
+    <p>
+      Explore the richness of God’s Word and grow in faith! Access Bible teachings, Sunday School lessons for both young and adult learners, the Open Heaven devotionals, Bible Equipped programs, uplifting Hymns, and the RCCG Anthem all in one place. This platform is designed to help you stay spiritually nourished, connected, and inspired.
+    </p>
+  </div>
+</div>
+
+<!-- CSS -->
+<style>
+/* Popup Background */
+.popup {
+  position: fixed;
+  top: -100%; /* Start hidden above viewport */
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 128, 0.9); /* Blue overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: top 0.5s ease;
+  z-index: 2000;
+}
+
+/* Popup Content */
+.popup-content {
+  background: #fff; /* White box inside overlay */
+  padding: 25px 30px;
+  border-radius: 10px;
+  max-width: 600px;
+  width: 90%;
+  position: relative;
+  text-align: center;
+}
+
+/* Close Button */
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #000080; /* Dark blue */
+  cursor: pointer;
+}
+
+/* RCCG Logo */
+.popup-logo {
+  width: 100px;
+  margin-bottom: 15px;
+}
+
+/* Headings and Paragraphs */
+.popup-content h2 {
+  margin-bottom: 15px;
+  color: #0000FF; /* Blue heading */
+}
+
+.popup-content p {
+  line-height: 1.7;
+  color: #333;
+}
+</style>
+
 
 <!-- OVERLAY -->
 <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
@@ -277,6 +349,20 @@ Hallelujah, Hallelujah!
 </footer>
 
 <script>
+
+function showPopup() {
+  document.getElementById('sitePopup').style.top = '0';
+}
+
+function closePopup() {
+  document.getElementById('sitePopup').style.top = '-100%';
+}
+
+// Optional: auto-show popup after 1 seconds
+window.onload = function() {
+  setTimeout(showPopup, 2000);
+}
+
 function toggleMenu() {
   document.getElementById("sideMenu").classList.toggle("active");
   document.getElementById("overlay").classList.toggle("active");
