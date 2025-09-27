@@ -126,8 +126,12 @@ footer .links li { display: inline-block; margin-right: 15px; }
   <a href="#" onclick="showSection('services')">Services</a>
   <a href="#" onclick="showSection('adult')">Open Heaven Adult</a>
   <a href="#" onclick="showSection('teen')">Open Heaven Teen</a>
+ <a href="#" onclick="showSection('yaya')">sunday  school yaya</a>
+ <a href="#" onclick="showSection('main')">sundayschool MAIN</a>
   <a href="#" onclick="showSection('bible')">Bible</a>
+ <a href="#" onclick="showSection('hymns')">Hymn</a>
 </div>
+
 
 <!-- OVERLAY -->
 <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
@@ -164,6 +168,18 @@ footer .links li { display: inline-block; margin-right: 15px; }
   <div id="teenList">Loading...</div>
 </div>
 
+<!-- SUNDAY SCHOOL YAYA -->
+<div class="page-section" id="yaya">
+  <h2>SUNDAY SCHOOL(YAYA)</h2>
+  <div id="yayalist">Loading...</div>
+</div>
+
+<!-- SUNDAY SCHOOL YAYA -->
+<div class="page-section" id="main">
+  <h2>SUNDAY SCHOOL(MAIN)</h2>
+  <div id="mainlist">Loading...</div>
+</div>
+
 <!-- BIBLE SECTION -->
 <div class="page-section" id="bible">
   <h2>Holy Bible</h2>
@@ -175,6 +191,32 @@ footer .links li { display: inline-block; margin-right: 15px; }
   </div>
   <div id="bibleText"><p>Select a book, chapter, and verse to display text.</p></div>
 </div>
+
+<!-- 🎵 HYMN SECTION -->
+<div class="page-section" id="hymns">
+  <h2 style="text-align:center;">🎶 Gospel Hymns</h2>
+  <p style="text-align:center;">Tap any hymn below to view lyrics & chorus.</p>
+
+  <!-- Hymn List -->
+  <div id="hymnList" 
+       style="max-height:400px; overflow-y:auto; border:1px solid #ccc; padding:10px;
+              border-radius:8px; background:#fff; margin:15px auto; max-width:600px;">
+    <p>Loading hymns...</p>
+  </div>
+
+  <!-- Hymn Display -->
+  <div id="hymnDisplay" 
+       style="margin-top:20px;padding:20px;border:1px solid #ccc;border-radius:8px;
+              background:#f9f9f9;max-width:600px;margin-left:auto;margin-right:auto; display:none;">
+    <h3 id="hymnTitle" style="text-align:center;color:#2c3e50;">Select a hymn...</h3>
+    <pre id="hymnLyrics" 
+         style="white-space:pre-wrap;font-size:1rem;line-height:1.5em;
+                margin-top:15px;text-align:left;"></pre>
+    <div id="hymnAudio" style="margin-top:15px;text-align:center;"></div>
+  </div>
+</div>
+
+
 
 <footer>
   <div style="max-width:1000px; margin:0 auto; text-align:center;">
@@ -293,11 +335,181 @@ async function loadDevotionals(type, containerId) {
   });
 }
 
+// Load Sunday School lessons
+async function loadSundaySchool(type, containerId) {
+  const { data, error } = await supabase
+    .from("sunday_school_lessons")
+    .select("*")
+    .eq("type", type)
+    .order("date", { ascending: false });
+
+  const container = document.getElementById(containerId);
+  container.innerHTML = "";
+
+  if (error) {
+    container.innerHTML = `<p style="color:red;">Error loading Sunday School lessons</p>`;
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    container.innerHTML = `<p>No lessons available</p>`;
+    return;
+  }
+
+  data.forEach(lesson => {
+    const { day, month } = formatDate(lesson.date);
+    const item = document.createElement("div");
+    item.className = "dev-item";
+    item.innerHTML = `
+      <div class="dev-header">
+        <div class="dev-date">${month}<br>${day}</div>
+        <div class="dev-details">
+          <h3>${lesson.title}</h3>
+          <small>${lesson.scripture}</small>
+        </div>
+      </div>
+      <div class="dev-footer">
+        <a href="sunday_school.html?id=${lesson.id}" target="_blank">Read Full →</a>
+      </div>
+    `;
+    container.appendChild(item);
+  });
+}
+
+
 // Initial load
 loadHome();
 loadServices();
 loadDevotionals("adult","adultList");
 loadDevotionals("teen","teenList");
+loadSundaySchool("main", "ssmainList");
+loadSundaySchool("yaya", "ssYayaList");
+
+
+
+// --------- Utilities ---------
+function fetchWithTimeout(url, ms = 8000) {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), ms);
+  return fetch(url, { signal: controller.signal })
+    .finally(() => clearTimeout(id));
+}
+
+let hymnsData = {}; // hymns keyed by number
+
+// =======================
+// LOAD HYMNS FROM SUPABASE STORAGE JSON
+// =======================
+async function loadHymns() {
+  const listDiv = document.getElementById("hymnList");
+  listDiv.innerHTML = "<p>Loading hymns...</p>";
+
+  try {
+    const res = await fetch("https://vtpsruejncfykiazrfsx.supabase.co/storage/v1/object/public/uploads/hymns.json");
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+
+    // ✅ hymns stored under "hymns"
+    hymnsData = json.hymns || {};
+    console.info("✅ Hymns loaded:", Object.keys(hymnsData).length);
+
+    renderHymnList(Object.values(hymnsData));
+  } catch (err) {
+    console.error("❌ Error loading hymns:", err.message);
+    listDiv.innerHTML = `<p style="color:red;">Error loading hymns. Please check console.</p>`;
+  }
+}
+
+// =======================
+// RENDER HYMN LIST
+// =======================
+function renderHymnList(hymns) {
+  const listDiv = document.getElementById("hymnList");
+  listDiv.innerHTML = "";
+
+  if (!hymns || hymns.length === 0) {
+    listDiv.innerHTML = "<p>No hymns found.</p>";
+    return;
+  }
+
+  hymns.forEach(hymn => {
+    const btn = document.createElement("button");
+    btn.textContent = hymn.titleWithHymnNumber || hymn.title || "Untitled Hymn";
+    btn.style.display = "block";
+    btn.style.width = "100%";
+    btn.style.margin = "4px 0";
+    btn.style.padding = "10px";
+    btn.style.border = "1px solid #0a5a2b";
+    btn.style.borderRadius = "6px";
+    btn.style.background = "#f9fff9";
+    btn.style.cursor = "pointer";
+    btn.onmouseover = () => btn.style.background = "#e9f7ee";
+    btn.onmouseout = () => btn.style.background = "#f9fff9";
+    btn.onclick = () => displayHymn(hymn);
+    listDiv.appendChild(btn);
+  });
+}
+
+// =======================
+// SEARCH HYMN BY NAME
+// =======================
+function searchHymnByName() {
+  const input = document.getElementById("hymnNameInput");
+  const query = input.value.trim().toLowerCase();
+
+  if (!query) {
+    renderHymnList(Object.values(hymnsData)); // reset to all hymns
+    return;
+  }
+
+  const matches = Object.values(hymnsData).filter(hymn => {
+    const title = (hymn.title || "").toLowerCase();
+    const full = (hymn.titleWithHymnNumber || "").toLowerCase();
+    return title.includes(query) || full.includes(query);
+  });
+
+  renderHymnList(matches);
+}
+
+// =======================
+// DISPLAY HYMN
+// =======================
+function displayHymn(hymn) {
+  const displayBox = document.getElementById("hymnDisplay");
+  const titleEl = document.getElementById("hymnTitle");
+  const lyricsEl = document.getElementById("hymnLyrics");
+  const audioDiv = document.getElementById("hymnAudio");
+
+  displayBox.style.display = "block";
+  titleEl.innerText = hymn.titleWithHymnNumber || hymn.title || "Untitled Hymn";
+
+  // Build lyrics text
+  let text = "";
+  if (hymn.verses && Array.isArray(hymn.verses)) {
+    text += hymn.verses.map((v, i) => `Verse ${i + 1}:\n${v}`).join("\n\n");
+  }
+  if (hymn.chorus) {
+    text += `\n\nChorus:\n${hymn.chorus}`;
+  }
+  lyricsEl.innerText = text || "Lyrics not available.";
+
+  // Audio
+  if (hymn.sound) {
+    audioDiv.innerHTML = `<audio controls style="width:100%; margin-top:10px;">
+      <source src="${hymn.sound}" type="audio/mpeg">
+      Your browser does not support audio.
+    </audio>`;
+  } else {
+    audioDiv.innerHTML = `<p style="color:gray;">No audio available for this hymn.</p>`;
+  }
+}
+
+// =======================
+// INIT
+// =======================
+loadHymns();
+
+
 
 // ---------------- BIBLE SECTION ----------------
 const books = [
