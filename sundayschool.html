@@ -87,69 +87,68 @@
     <div class="content" id="dev-content"></div>
     <button id="backButton">← Back to Home</button>
   </div>
+<script>
+  // Supabase setup
+  const SUPABASE_URL = "https://vtpsruejncfykiazrfsx.supabase.co";
+  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0cHNydWVqbmNmeWtpYXpyZnN4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY3NDA5NzQsImV4cCI6MjA3MjMxNjk3NH0.UV55gbsSAgnyolxJhIYTaJUpvoJFsJn0_-LMNwhwAK0";
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  <script>
-    // Supabase setup
-    const SUPABASE_URL = "https://vtpsruejncfykiazrfsx.supabase.co";
-    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0cHNydWVqbmNmeWtpYXpyZnN4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY3NDA5NzQsImV4cCI6MjA3MjMxNjk3NH0.UV55gbsSAgnyolxJhIYTaJUpvoJFsJn0_-LMNwhwAK0";
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    // Back button
-    document.getElementById("backButton").addEventListener("click", () => {
-      window.location.href = "home.html"; // Replace with your home page filename
-    });
-
-    // Get lesson ID from URL
-const urlParams = new URLSearchParams(window.location.search);
-const id = urlParams.get("id");
-
-async function loadLesson() {
-  if (!id) {
-    document.getElementById("lesson-title").innerText = "No Sunday School lesson selected.";
-    return;
-  }
-
-  const { data, error } = await supabase
-    .from("sunday_school_lessons")
-    .select("*")
-    .eq("id", id)
-    .single();
-
-  if (error || !data) {
-    document.getElementById("lesson-title").innerText = "Lesson not found.";
-    return;
-  }
-
-  // Fill page
-  document.getElementById("lesson-title").innerText = data.title;
-
-  const scriptureLink = `https://www.biblegateway.com/passage/?search=${encodeURIComponent(data.scripture)}&version=KJV`;
-  const scriptureEl = document.getElementById("lesson-scripture");
-  scriptureEl.innerText = data.scripture;
-  scriptureEl.href = scriptureLink;
-
-  // If image exists, display it
-  const contentEl = document.getElementById("lesson-content");
-  contentEl.innerHTML = "";
-
-  if (data.image_url) {
-    const img = document.createElement("img");
-    img.src = data.image_url;
-    img.alt = data.title + " image";
-    img.className = "lesson-image";
-    contentEl.appendChild(img);
-  }
-
-  // Add lesson content
-  const paragraphs = data.content.split("\n").filter(p => p.trim() !== "");
-  paragraphs.forEach(p => {
-    const paraEl = document.createElement("p");
-    paraEl.innerHTML = p;
-    contentEl.appendChild(paraEl);
+  // Back button
+  document.getElementById("backButton").addEventListener("click", () => {
+    window.location.href = "home.html"; // Replace with your home page filename
   });
-}
 
-loadLesson();
-  </script>
+  // Get lesson ID from URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const id = urlParams.get("id");
+
+  async function loadLesson() {
+    if (!id) {
+      document.getElementById("dev-title").innerText = "No Sunday School lesson selected.";
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from("sunday_school_lessons")
+      .select("*")
+      .eq("id", id)
+      .single();
+
+    if (error || !data) {
+      document.getElementById("dev-title").innerText = "Lesson not found.";
+      return;
+    }
+
+    // Fill page
+    document.getElementById("dev-title").innerText = data.title;
+
+    const scriptureLink = `https://www.biblegateway.com/passage/?search=${encodeURIComponent(data.scripture)}&version=KJV`;
+    const scriptureEl = document.getElementById("dev-scripture");
+    scriptureEl.innerText = data.scripture;
+    scriptureEl.href = scriptureLink;
+
+    // If image exists, display it
+    const contentEl = document.getElementById("dev-content");
+    contentEl.innerHTML = "";
+
+    if (data.image_url) {
+      const img = document.createElement("img");
+      img.src = data.image_url;
+      img.alt = data.title + " image";
+      img.className = "dev-image";
+      contentEl.appendChild(img);
+    }
+
+    // Add lesson content
+    const paragraphs = data.content.split("\n").filter(p => p.trim() !== "");
+    paragraphs.forEach(p => {
+      const paraEl = document.createElement("p");
+      paraEl.innerHTML = p;
+      contentEl.appendChild(paraEl);
+    });
+  }
+
+  loadLesson();
+</script>
 </body>
 </html>
